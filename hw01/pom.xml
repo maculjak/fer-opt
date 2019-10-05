@@ -4,15 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hr.fer.zemris.java.hw01</groupId>
-    <artifactId>hw01</artifactId>
+    <groupId>hr.fer.zemris.optjava.hw01</groupId>
+    <artifactId>trisat</artifactId>
     <version>1.0</version>
 
-<properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>12</maven.compiler.source>
-    <maven.compiler.target>12</maven.compiler.target>
-    <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
-</properties>
+<build>
+    <plugins>
+        <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>12</source>
+                <target>12</target>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
 </project>
