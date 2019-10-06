@@ -13,8 +13,8 @@ public class BruteForce implements Algorithm {
         MutableBitVector bv = new MutableBitVector(satFormula.getNumberOfVariables());
         MutableBitVector returnValue = null;
 
-        while(true) {
-            if(satFormula.isSatisfied(bv)) {
+        while (true) {
+            if (satFormula.isSatisfied(bv)) {
                 returnValue = bv;
                 System.out.println(bv);
             }
@@ -33,7 +33,7 @@ public class BruteForce implements Algorithm {
         old.set(i, !old.get(i));
         i--;
 
-        while(carry && i >= 0) {
+        while (carry && i >= 0) {
             if(!old.get(i)) carry = false;
             old.set(i, !old.get(i));
             i--;

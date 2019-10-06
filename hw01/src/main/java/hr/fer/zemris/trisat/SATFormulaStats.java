@@ -20,13 +20,13 @@ public class SATFormulaStats {
         numberOfSatisfiedClauses = 0;
         percentageBonus = 0;
 
-        for(int i = 0; i < satFormula.getNumberOfClauses(); i++) {
-            if(satFormula.getClause(i).isSatisfied(assignment)) {
+        for (int i = 0; i < satFormula.getNumberOfClauses(); i++) {
+            if (satFormula.getClause(i).isSatisfied(assignment)) {
                 numberOfSatisfiedClauses++;
-                if(updatePercentages) post[i] += (1 - post[i]) * percentageConstantUp;
+                if (updatePercentages) post[i] += (1 - post[i]) * percentageConstantUp;
                 else percentageBonus += percentageUnitAmount * (1 - post[i]);
             } else {
-                if(updatePercentages) post[i] += (0 - post[i]) * percentageConstantDown;
+                if (updatePercentages) post[i] += (0 - post[i]) * percentageConstantDown;
                 else percentageBonus -= percentageUnitAmount * (1 - post[i]);
             }
         }

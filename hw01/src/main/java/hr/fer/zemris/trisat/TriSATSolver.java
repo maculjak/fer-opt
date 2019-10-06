@@ -10,7 +10,7 @@ public class TriSATSolver {
         int algorithm;
         String filename;
 
-        if(args.length != 2) {
+        if (args.length != 2) {
             System.err.println("Invalid number of arguments, closing the program...");
             System.exit(1);
         }
@@ -24,13 +24,13 @@ public class TriSATSolver {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(TriSATSolver.class.getResourceAsStream(filename)));
 
-            while(true) {
+            while (true) {
                 String line = br.readLine();
                 line = line.replaceAll("( )+", " ").trim();
 
-                if(line.equals("%")) break;
-                if(line.startsWith("c")) continue;
-                if(line.startsWith("p")) {
+                if (line.equals("%")) break;
+                if (line.startsWith("c")) continue;
+                if (line.startsWith("p")) {
                     String[] s = line.split(" ");
                     literalsInAClause = Integer.parseInt(s[2]);
                     continue;
@@ -39,7 +39,7 @@ public class TriSATSolver {
                 String[] s = line.split(" ");
                 int[] indexes = new int[literalsInAClause];
 
-                for(int i = 0; i < s.length - 1; i++) {
+                for (int i = 0; i < s.length - 1; i++) {
                     int literal = Integer.parseInt(s[i]);
                     indexes[Math.abs(literal) - 1] = literal;
                 }
@@ -66,10 +66,14 @@ public class TriSATSolver {
                 solution = new SmartLocalSearch(satFormula).getSolution();
                 break;
             case 4:
-                solution = new GSAT(satFormula, 100, 10000).getSolution();
+                solution = new MultistartLocalSearch(satFormula, 100, 10000).getSolution();
                 break;
             case 5:
-
+                solution = new RandomWalkSAT(satFormula, 0.5, 100, 10000).getSolution();
+                break;
+            case 6:
+                solution = new IteratedLocalSearch(satFormula, 100000, 0.5).getSolution();
+                break;
             default:
                 System.err.println("Invalid algorithm index, closing the program...");
                 System.exit(1);

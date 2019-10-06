@@ -26,7 +26,7 @@ public class BitVectorNGenerator implements Iterable<MutableBitVector> {
             @Override
             public MutableBitVector next() {
                 MutableBitVector temp = new MutableBitVector(assignment.bits.clone());
-                temp.set(index, !temp.get(index));
+                temp.set (index, !temp.get(index));
                 index++;
                 return temp;
             }
@@ -38,7 +38,7 @@ public class BitVectorNGenerator implements Iterable<MutableBitVector> {
         Iterator<MutableBitVector> iterator = iterator();
 
         int i = 0;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             mutableBitVectors[i] = iterator.next();
             i++;
         }

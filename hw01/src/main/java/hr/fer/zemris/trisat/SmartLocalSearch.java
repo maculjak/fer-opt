@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SmartLocalSearch implements Algorithm{
 
-    SATFormula satFormula;
+    private SATFormula satFormula;
     private final int numberOfBest = 2;
     private SATFormulaStats satFormulaStats;
     private final int MAX_NUMBER_OF_ITERATIONS = 10000;
@@ -37,15 +37,15 @@ public class SmartLocalSearch implements Algorithm{
         BitVector[] bestNeighbours = new BitVector[numberOfBest];
         int i = 0;
 
-        for(BitVector b : neighbourhood) {
+        for (BitVector b : neighbourhood) {
             satFormulaStats.setAssignment(b, false);
             qualities.add(satFormulaStats.getPercentageBonus());
         }
 
-        for(i = 0; i < numberOfBest; i++) {
+        for (i = 0; i < numberOfBest; i++) {
             int maxIndex = 0;
-            for(int j = 1; j < qualities.size(); j++) {
-                if(qualities.get(j) > qualities.get(maxIndex)) maxIndex = j;
+            for (int j = 1; j < qualities.size(); j++) {
+                if (qualities.get(j) > qualities.get(maxIndex)) maxIndex = j;
             }
             bestNeighbours[i] = neighbourhood[maxIndex];
             qualities.remove(maxIndex);

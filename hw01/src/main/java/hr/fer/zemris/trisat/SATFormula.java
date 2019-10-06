@@ -25,7 +25,7 @@ public class SATFormula {
     }
 
     public boolean isSatisfied (BitVector assignment) {
-        for(Clause clause : clauses) if (!clause.isSatisfied(assignment)) return false;
+        for (Clause clause : clauses) if (!clause.isSatisfied(assignment)) return false;
         return true;
     }
 
