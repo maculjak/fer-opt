@@ -14,7 +14,6 @@ public class IteratedLocalSearch extends LocalSearch{
     public MutableBitVector getSolution() {
         Random rand = new Random();
         MutableBitVector x = new MutableBitVector(rand, satFormula.getNumberOfVariables());
-
         for (int i = 0; i < MAX_NUMBER_OF_ITERATIONS; i++) {
             int xQuality = fit(x);
 

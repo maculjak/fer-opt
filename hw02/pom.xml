@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>hr.fer.zemris.optjava.hw01</groupId>
-    <artifactId>trisat</artifactId>
+    <groupId>hr.fer.zemris.optjava.hw02</groupId>
+    <artifactId>numopt</artifactId>
     <version>1.0</version>
 
     <build>
@@ -19,5 +19,14 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencies><!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

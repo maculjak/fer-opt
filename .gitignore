@@ -1,4 +1,4 @@
 */.idea
-hw01/hw01.iml
+hw*/hw*.iml
 *.cnf
-hw01/target
+hw*/target
