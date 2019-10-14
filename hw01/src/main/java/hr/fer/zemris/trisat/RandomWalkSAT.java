@@ -7,7 +7,7 @@ import java.util.Random;
 public class RandomWalkSAT {
 
     private SATFormula satFormula;
-    double randomWalkProbability;
+    private double randomWalkProbability;
     private final int MAX_TRIES;
     private final int MAX_FLIPS;
 

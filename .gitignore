@@ -2,3 +2,5 @@
 hw*/hw*.iml
 *.cnf
 hw*/target
+*.userlibraries
+*.eml
