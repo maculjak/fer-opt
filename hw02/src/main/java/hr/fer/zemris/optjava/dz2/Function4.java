@@ -1,14 +1,8 @@
 package hr.fer.zemris.optjava.dz2;
 
-import org.apache.commons.math3.geometry.Vector;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealVector;
-import org.jfree.util.ArrayUtilities;
-
-import java.lang.reflect.Array;
-import java.util.*;
 
 /**
  * Solution for the coefficients is:
@@ -24,15 +18,17 @@ public class Function4 implements IHFunction {
 
     private Array2DRowRealMatrix x;
     private Array2DRowRealMatrix y;
+    private int numberOfVariables;
 
     public Function4(double[][] x, double[] y) {
         this.x = new Array2DRowRealMatrix(x);
         this.y = new Array2DRowRealMatrix(y);
+        this.numberOfVariables = 6;
     }
 
     @Override
     public int getNumberOfVariables() {
-        return 6;
+        return numberOfVariables;
     }
 
     @Override
@@ -40,7 +36,7 @@ public class Function4 implements IHFunction {
         double value = 0;
 
         for(int i = 0; i < x.getRowDimension(); i++) value += Math.pow(f(point, i) - y.getEntry(i, 0), 2);
-        return 0.5 * value;
+        return value / x.getRowDimension();
     }
 
     private double f(Array2DRowRealMatrix point, int i) {
@@ -122,7 +118,7 @@ public class Function4 implements IHFunction {
         }
 
         for(int i = 0; i < getNumberOfVariables(); i++) for (int j = 0; j < i; j++) hessianMatrix[i][j] = hessianMatrix[j][i];
-        return (Array2DRowRealMatrix) new Array2DRowRealMatrix(hessianMatrix).scalarMultiply(1.0 / 20);
+        return (Array2DRowRealMatrix) new Array2DRowRealMatrix(hessianMatrix).scalarMultiply(1.0 / x.getRowDimension());
     }
 
     private double[] getPartialDerivations(Array2DRowRealMatrix point) {

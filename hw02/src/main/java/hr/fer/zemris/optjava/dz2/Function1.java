@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Function1 implements IHFunction{
 
-    int numberOfVariables;
+    private int numberOfVariables;
 
     public Function1() {
         numberOfVariables = 2;

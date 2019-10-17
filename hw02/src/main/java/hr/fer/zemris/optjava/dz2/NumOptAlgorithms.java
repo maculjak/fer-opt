@@ -61,10 +61,10 @@ public class NumOptAlgorithms {
         double lambda = lambdaU;
         double derivation;
 
-        for(int i = 0; i < 512; i++) {
+        for(int i = 0; i < 256; i++) {
             lambda = (lambdaL + lambdaU) / 2;
             derivation = function.getGradient((Array2DRowRealMatrix) x.add(d.scalarMultiply(lambda))).transpose().multiply(d).getEntry(0,0);
-            if (Math.abs(derivation) < 0.5) break;
+            if (Math.abs(derivation) < 0.1) break;
             if (derivation > 0) lambdaU = lambda;
             else if (derivation < 0) lambdaL = lambda;
         }
@@ -73,7 +73,7 @@ public class NumOptAlgorithms {
     }
 
     private static double getLambdaUpper(IFunction function, Array2DRowRealMatrix x, Array2DRowRealMatrix d) {
-        double lambdaUpper = 0.01;
+        double lambdaUpper = 1;
 
         double derivation;
         while(true) {
@@ -82,12 +82,14 @@ public class NumOptAlgorithms {
             if  (derivation >= 0) break;
             else if (derivation < 0) lambdaUpper *= 2;
         }
+
         return lambdaUpper;
     }
 
     private static boolean isOptimum(IFunction function, Array2DRowRealMatrix x) {
         Array2DRowRealMatrix gradient = function.getGradient(x);
-        return gradientAbsValue(gradient) < 1E-4;
+        for(double g : gradient.getColumn(0)) if (Math.abs(g) > 0.1) return false;
+        return true;
     }
 
     private static double gradientAbsValue(Array2DRowRealMatrix gradient) {

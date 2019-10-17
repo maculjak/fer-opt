@@ -22,10 +22,12 @@ public class Function3 implements IHFunction{
 
     private Array2DRowRealMatrix A;
     private Array2DRowRealMatrix y;
+    private int numberOfVariables;
 
     public Function3(double[][] A, double[] y) {
         this.A = new Array2DRowRealMatrix(A);
         this.y = (Array2DRowRealMatrix) new Array2DRowRealMatrix(y);
+        numberOfVariables = y.length;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Function3 implements IHFunction{
 
     @Override
     public int getNumberOfVariables() {
-        return 10;
+        return numberOfVariables;
     }
 
     @Override
@@ -45,11 +47,9 @@ public class Function3 implements IHFunction{
         Array2DRowRealMatrix Ax = A.multiply(point);
         Array2DRowRealMatrix res = y.subtract(Ax);
 
-        for(int i = 0; i < getNumberOfVariables(); i++) {
-            value += res.getEntry(i, 0) * res.getEntry(i,0);
-        }
+        for(int i = 0; i < numberOfVariables; i++) value += res.getEntry(i, 0) * res.getEntry(i,0);
 
-        return value;
+        return value / numberOfVariables;
     }
 
     @Override

@@ -54,14 +54,14 @@ public class Prijenosna {
             ArrayList<Array2DRowRealMatrix> solutions = NumOptAlgorithms.gradientDescent(errorFunction,
                     Integer.parseInt(args[1]), generateRandomPoint(errorFunction.getNumberOfVariables(),-5, 5));
             Array2DRowRealMatrix solution = solutions.get(solutions.size() - 1);
-            printPoint(solution);
+            printPoint2(solution);
             System.out.println("Error: " + errorFunction.getValue(solution));
         } else if (args[0].equals("newton")) {
             Function4 errorFunction = new Function4(x, y);
             ArrayList<Array2DRowRealMatrix> solutions = NumOptAlgorithms.newtonsMethod(errorFunction,
                     Integer.parseInt(args[1]), generateRandomPoint(errorFunction.getNumberOfVariables(), -5, 5));
             Array2DRowRealMatrix solution = solutions.get(solutions.size() - 1);
-            printPoint(solution);
+            printPoint2(solution);
             System.out.println("Error: " + errorFunction.getValue(solution));
         }
 
