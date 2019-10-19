@@ -1,6 +1,7 @@
 */.idea
 hw*/hw*.iml
 *.cnf
-hw*/target
+*/target
 *.userlibraries
 *.eml
+
