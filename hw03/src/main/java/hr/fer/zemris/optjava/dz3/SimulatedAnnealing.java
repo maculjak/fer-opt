@@ -37,7 +37,7 @@ public class SimulatedAnnealing<T extends SingleObjectiveSolution> implements IO
 
         for(int i = 0; i < outerLimit; i++) {
             for(int j = 0; j < innerLimit; j++) {
-                System.out.print("Iteration: " + i + " Temperature: " + currentTemperature + " Error: " + solution.value + " Solution: ");
+                System.out.format("Iteration: %d Temperature: %.3e Error: %.3e Solution: ", i, currentTemperature, solution.value);
                 new SolutionDisplay<T>().printSolution(solution, decoder);
                 T nextSolution = neighbourhood.randomNeighbour(solution);
                 nextSolution.value = function.getValue(decoder.decode(nextSolution));

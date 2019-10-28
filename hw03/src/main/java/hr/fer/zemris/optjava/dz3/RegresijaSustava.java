@@ -1,6 +1,7 @@
 package hr.fer.zemris.optjava.dz3;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class RegresijaSustava {
         }
 
         try {
-            InputStreamReader isr = new InputStreamReader(RegresijaSustava.class.getResourceAsStream(args[1]));
+            InputStreamReader isr = new InputStreamReader(new FileInputStream(args[1]));
             BufferedReader br = new BufferedReader(isr);
             while (true) {
                 String line = br.readLine();
@@ -62,7 +63,7 @@ public class RegresijaSustava {
 
 
         if (args[0].equals("decimal")) {
-            DoubleArrayUnifNeighbourhood neighbourhood = new DoubleArrayUnifNeighbourhood(new double[] {1, 0.2, 0.075, 0.05, 0.018, 0.2});
+            DoubleArrayUnifNeighbourhood neighbourhood = new DoubleArrayUnifNeighbourhood(new double[] {0.5, 0.2, 0.075, 0.05, 0.018, 0.2});
             PassThroughDecoder decoder= new PassThroughDecoder();
             DoubleArraySolution solution = new DoubleArraySolution(6);
             solution.randomize(rand, new double[]{-5, -5, -5, -5, -5, -5}, new double[]{5, 5, 5, 5, 5, 5});
@@ -72,7 +73,7 @@ public class RegresijaSustava {
         } else if (args[0].startsWith("binary")) {
             int bitsPerVariable = Integer.parseInt(args[0].split(":")[1]);
             BinaryNeighbourhood neighbourhood = new BinaryNeighbourhood();
-            GreyBinaryDecoder decoder = new GreyBinaryDecoder(-8, 8, bitsPerVariable, errorFunction.getNumberOfVariables());
+            GreyBinaryDecoder decoder = new GreyBinaryDecoder(-10, 10, bitsPerVariable, errorFunction.getNumberOfVariables());
             BitVectorSolution solution = new BitVectorSolution(errorFunction.getNumberOfVariables() * bitsPerVariable);
             solution.randomize(rand);
             SimulatedAnnealing<BitVectorSolution> simulatedAnnealing = new SimulatedAnnealing<>(decoder,
