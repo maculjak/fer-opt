@@ -1,5 +1,5 @@
-*/.idea
-hw*/hw*.iml
+*.idea
+*.iml
 *.cnf
 */target
 *.userlibraries

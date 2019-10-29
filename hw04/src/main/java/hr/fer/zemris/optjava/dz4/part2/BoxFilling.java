@@ -16,6 +16,7 @@ public class BoxFilling {
 
         if (args.length != 7) {
             System.err.println("Invalid number of argumetns");
+            System.exit(1);
         }
 
         final int VEL_POP = Integer.parseInt(args[1]);

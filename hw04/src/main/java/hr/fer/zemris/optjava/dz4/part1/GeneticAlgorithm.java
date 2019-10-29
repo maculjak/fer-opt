@@ -112,6 +112,7 @@ public class GeneticAlgorithm {
 
                 offspring1 = Mutations.mutate(offspring1, SIGMA);
                 offspring2 = Mutations.mutate(offspring2, SIGMA);
+
                 offspring1.setValue(errorFunction.getValue(offspring1));
                 offspring2.setValue(errorFunction.getValue(offspring2));
 

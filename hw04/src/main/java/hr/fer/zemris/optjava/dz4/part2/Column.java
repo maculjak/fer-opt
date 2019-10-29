@@ -47,8 +47,10 @@ public class Column implements Iterable<Stick> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for(Stick stick : sticks)
-            sb.append(String.format("█", stick.getIndex()).repeat(Math.max(0, stick.getHeight())));
+        for(Stick stick : sticks) {
+            sb.append(String.format("█", stick.getIndex()).repeat(Math.max(0, stick.getHeight() - 1)));
+            sb.append("▒");
+        }
         sb.append("░".repeat(maxCapacity - capacity));
 
         return sb.toString();
