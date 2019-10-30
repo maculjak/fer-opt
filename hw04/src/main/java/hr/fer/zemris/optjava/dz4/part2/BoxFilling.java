@@ -59,7 +59,7 @@ public class BoxFilling {
                 Box box1 = Selections.boxTournament(initialPopulation, N, true);
                 Box box2 = Selections.boxTournament(initialPopulation, N, true);
 
-                Box boxToAdd = Mutations.mutate(Crossovers.boxCrossover(box1, box2), 0.5);
+                Box boxToAdd = Mutations.mutate(Crossovers.boxCrossover(box1, box2), SIGMA);
                 Box boxToRemove = Selections.boxTournament(initialPopulation, M, false);
 
                 if (!P || boxToAdd.getFill() < boxToRemove.getFill()) {
@@ -70,11 +70,13 @@ public class BoxFilling {
                     change = true;
                 }
 
-                if (change) System.out.println(best + "Iteration: " + (i + 1) + " Number of sticks: " + best.getFill());
+                if (change) System.out.println(best + "Iteration: " + (i + 1) + " Number of sticks: " + best.getFill() + "\n");
                 change = false;
 
                 if (best.getFill() <= STOPCONDITION) break;
             }
+
+            System.out.println("Legend : \n █ - stick body \n ▓ - tip of the stick \n ░ - empty space");
         } catch (IOException e) {
             e.printStackTrace();
         }
