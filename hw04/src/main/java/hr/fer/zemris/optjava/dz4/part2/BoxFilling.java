@@ -25,7 +25,7 @@ public class BoxFilling {
         final boolean P = Boolean.parseBoolean(args[4]);
         final int ITERATIONS = Integer.parseInt(args[5]);
         final int STOPCONDITION = Integer.parseInt(args[6]);
-        final double SIGMA = 0.7;
+        final double SIGMA = 0.5;
 
         Box box;
         try {
