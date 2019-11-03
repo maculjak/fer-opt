@@ -54,7 +54,7 @@ public class LocationPermutationSolution extends Solution {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        locations.forEach(s -> sb.append(s).append(" "));
+        locations.forEach(s -> sb.append(String.format("%2d ", s)));
         return sb.toString();
     }
 

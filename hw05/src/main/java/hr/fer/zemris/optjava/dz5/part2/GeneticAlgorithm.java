@@ -65,6 +65,7 @@ public class GeneticAlgorithm {
             population.add(solution);
         }
 
+        LocationPermutationSolution overallBest = population.stream().min(LocationPermutationSolution::compareTo).orElse(null);
 
         while (numberOfSubPopulations > 1) {
             ArrayList<ArrayList<LocationPermutationSolution>> populations = divideIntoSubPopulations(population, numberOfSubPopulations);
@@ -74,7 +75,11 @@ public class GeneticAlgorithm {
             }
             numberOfSubPopulations--;
             LocationPermutationSolution best = population.stream().min(LocationPermutationSolution::compareTo).orElse(null);
-            System.out.println(best + " " + best.getValue());
+            if (overallBest == null && best != null || best != null && best.getValue() < overallBest.getValue()) overallBest = best;
+            System.out.format("Solution: %s Cost: %3.0f  Number of sub-populations: %d\n"
+                    , overallBest
+                    , overallBest == null ? 0 : overallBest.getValue()
+                    , numberOfSubPopulations);
         }
 
 //        LocationPermutationSolution
@@ -94,7 +99,7 @@ public class GeneticAlgorithm {
         final int ITERATIONS = 1000;
         int populationSize = population.size();
         final double SUCCESS_RATIO = 0.9;
-        final int MAXIMUM_SELECTION_PRESSURE = 30;
+        final int MAXIMUM_SELECTION_PRESSURE = 50;
         final double COMPARISON_FACTOR_LOWER_BOUND = 0.3;
         final double COMPARISON_FACTOR_UPPER_BOUND = 1;
         double comparisonFactor = COMPARISON_FACTOR_LOWER_BOUND;
@@ -107,6 +112,7 @@ public class GeneticAlgorithm {
 
             while (newPopulation.size() < populationSize * SUCCESS_RATIO
                     &&  newPopulation.size() + pool.size() < populationSize * MAXIMUM_SELECTION_PRESSURE) {
+                if (population.size() < 2) break;
                 LocationPermutationSolution parent1 = Selections.tournament(population, 2, true);
                 LocationPermutationSolution parent2 = Selections.tournament(population, 2, true);
 
@@ -119,7 +125,7 @@ public class GeneticAlgorithm {
                 double fitnessThreshold = worseParentValue + comparisonFactor * (worseParentValue - betterParentValue);
 
                 LocationPermutationSolution child = Crossovers.locationPermutationCrossover(parent1, parent2);
-                if (rand.nextDouble() < 0.2) child = Mutations.locationPermutationMutate(child);
+                if (rand.nextDouble() < 0.8) child = Mutations.locationPermutationMutate(child);
 
                 child.setValue(function.getValue(child));
                 if (child.getValue() >= fitnessThreshold) {
