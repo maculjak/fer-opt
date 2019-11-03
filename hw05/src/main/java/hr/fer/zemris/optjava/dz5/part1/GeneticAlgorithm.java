@@ -40,8 +40,9 @@ public class GeneticAlgorithm {
         while (i < ITERATIONS && population.size() >= POPULATION_MINIMUM) {
             HashSet<BitVectorSolution> newPopulation = new HashSet<>();
             int generatedChildren = 0;
+
             while (generatedChildren < MAXIMUM_EFFORT ) {
-                BitVectorSolution parent1 = Selections.Tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS);
+                BitVectorSolution parent1 = Selections.tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS, false);
                 BitVectorSolution parent2 = Selections.random(new ArrayList<>(population));
 
                 double parent1Value = parent1.setValue(function);

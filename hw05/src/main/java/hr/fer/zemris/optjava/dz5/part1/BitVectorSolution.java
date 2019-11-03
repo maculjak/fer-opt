@@ -1,5 +1,6 @@
 package hr.fer.zemris.optjava.dz5.part1;
 
+import hr.fer.zemris.optjava.dz5.IFunction;
 import hr.fer.zemris.optjava.dz5.Solution;
 
 import java.util.BitSet;

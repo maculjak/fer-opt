@@ -1,4 +1,4 @@
-package hr.fer.zemris.optjava.dz5.part1;
+package hr.fer.zemris.optjava.dz5;
 
 public interface IFunction<T> {
     double getValue(T point);

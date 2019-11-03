@@ -7,7 +7,7 @@ import hr.fer.zemris.optjava.dz5.Solution;
 
 public class Selections {
 
-    public static <T extends Solution> T Tournament(List<T> population, int k) {
+    public static <T extends Solution> T tournament(List<T> population, int k, boolean inverse) {
         List<T> temp = new ArrayList<>(population);
         List<T> participants = new ArrayList<>(k);
         int unitsInPopulation = population.size();
@@ -20,6 +20,7 @@ public class Selections {
             temp.remove(participantIndex);
         }
 
+        if (inverse) return participants.stream().min(Solution::compareTo).orElse(null);
         return participants.stream().max(Solution::compareTo).orElse(null);
     }
 

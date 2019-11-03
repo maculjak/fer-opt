@@ -1,7 +1,5 @@
 package hr.fer.zemris.optjava.dz5;
 
-import hr.fer.zemris.optjava.dz5.part1.IFunction;
-
 public abstract class Solution {
 
     private double value;

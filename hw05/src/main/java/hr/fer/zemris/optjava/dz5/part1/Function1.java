@@ -1,5 +1,7 @@
 package hr.fer.zemris.optjava.dz5.part1;
 
+import hr.fer.zemris.optjava.dz5.IFunction;
+
 public class Function1 implements IFunction<BitVectorSolution> {
 
     @Override
