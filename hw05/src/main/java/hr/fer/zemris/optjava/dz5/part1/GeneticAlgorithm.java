@@ -16,6 +16,7 @@ public class GeneticAlgorithm {
         final int ITERATIONS = 150;
         final int TOURNAMENT_PARTICIPANTS = 2;
         final double SIGMA = 0.5;
+        final boolean DOUBLE_TOURNAMENT = true;
 
         if (args.length != 1) {
             System.err.println("Invalid number of arguments. Closing the program...");
@@ -42,8 +43,17 @@ public class GeneticAlgorithm {
             int generatedChildren = 0;
 
             while (generatedChildren < MAXIMUM_EFFORT ) {
-                BitVectorSolution parent1 = Selections.tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS, false);
-                BitVectorSolution parent2 = Selections.random(new ArrayList<>(population));
+
+                BitVectorSolution parent1;
+                BitVectorSolution parent2;
+
+                if (!DOUBLE_TOURNAMENT) {
+                    parent1 = Selections.tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS, false);
+                    parent2 = Selections.random(new ArrayList<>(population));
+                } else {
+                    parent1 = Selections.tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS, false);
+                    parent2 = Selections.tournament(new ArrayList<>(population), TOURNAMENT_PARTICIPANTS, false);
+                }
 
                 double parent1Value = parent1.setValue(function);
                 double parent2Value = parent2.setValue(function);

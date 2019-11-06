@@ -7,20 +7,26 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class LocationPermutationSolution extends Solution {
 
     private int solutionSize;
     private ArrayList<Integer> locations;
+    private static ArrayList<Integer> firstNIntegers = null;
 
     public LocationPermutationSolution(int solutionSize) {
+        if (firstNIntegers == null) {
+            firstNIntegers = new ArrayList<>();
+            for (int i = 0; i < solutionSize; i++) firstNIntegers.add(i);
+        }
+
         this.solutionSize = solutionSize;
-        this.locations = new ArrayList<>();
-        for (int i = 0; i < solutionSize; i++) locations.add(i);
+        this.locations = new ArrayList<>(firstNIntegers);
+
         Collections.shuffle(locations);
     }
-
 
     public LocationPermutationSolution(int ... permutation) {
         locations = new ArrayList<>();
@@ -77,6 +83,7 @@ public class LocationPermutationSolution extends Solution {
     public boolean contains(int i) {
         return locations.contains(i);
     }
+
     public double setValue(IFunction<LocationPermutationSolution> function) {
         this.setValue(function.getValue(this));
         return getValue();

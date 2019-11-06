@@ -96,11 +96,11 @@ public class GeneticAlgorithm {
     }
 
     private static ArrayList<LocationPermutationSolution> offspringSelection(ArrayList<LocationPermutationSolution> population, IFunction<LocationPermutationSolution> function) {
-        final int ITERATIONS = 1000;
+        final int ITERATIONS = 100;
         int populationSize = population.size();
         final double SUCCESS_RATIO = 0.9;
-        final int MAXIMUM_SELECTION_PRESSURE = 50;
-        final double COMPARISON_FACTOR_LOWER_BOUND = 0.3;
+        final int MAXIMUM_SELECTION_PRESSURE = 150;
+        final double COMPARISON_FACTOR_LOWER_BOUND = 0.6;
         final double COMPARISON_FACTOR_UPPER_BOUND = 1;
         double comparisonFactor = COMPARISON_FACTOR_LOWER_BOUND;
         double actualSelectionPressure = 1;
