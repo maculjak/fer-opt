@@ -12,11 +12,11 @@ public class GeneticAlgorithm {
 
         final int POPULATION_MAXIMUM = 1000;
         final int POPULATION_MINIMUM = 2;
-        final int MAXIMUM_EFFORT = 1000;
+        final int MAXIMUM_EFFORT = 2000;
         final int ITERATIONS = 150;
         final int TOURNAMENT_PARTICIPANTS = 2;
         final double SIGMA = 0.5;
-        final boolean DOUBLE_TOURNAMENT = true;
+        final boolean DOUBLE_TOURNAMENT = false;
 
         if (args.length != 1) {
             System.err.println("Invalid number of arguments. Closing the program...");
@@ -36,7 +36,7 @@ public class GeneticAlgorithm {
         }
 
         int i = 0;
-        double COMPFACTOR = 0;
+        double COMPFACTOR = 0.4;
         Random rand = new Random();
         while (i < ITERATIONS && population.size() >= POPULATION_MINIMUM) {
             HashSet<BitVectorSolution> newPopulation = new HashSet<>();
@@ -57,8 +57,10 @@ public class GeneticAlgorithm {
 
                 double parent1Value = parent1.setValue(function);
                 double parent2Value = parent2.setValue(function);
+
                 double worseParentValue = Math.min(parent1Value, parent2Value);
                 double betterParentValue = Math.max(parent1Value, parent2Value);
+
                 double fitnessThreshold = worseParentValue + COMPFACTOR * (betterParentValue - worseParentValue);
 
                 BitVectorSolution child = Crossovers.uniformBitVectorCrossover(parent1, parent2);
