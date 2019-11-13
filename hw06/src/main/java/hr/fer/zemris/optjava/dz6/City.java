@@ -1,6 +1,5 @@
 package hr.fer.zemris.optjava.dz6;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class City {

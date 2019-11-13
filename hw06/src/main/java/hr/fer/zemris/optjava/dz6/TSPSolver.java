@@ -25,12 +25,14 @@ public class TSPSolver {
 
         Ant greedyAnt = new Ant(world);
         greedyAnt.greedyTravel();
+
         double tauMAX = 1 / (greedyAnt.getDistanceTravelled());
         double tauMIN = tauMAX / a;
 
         world.setPheromoneTrails(tauMAX);
         Ant bestSoFarAnt = null;
         int badIterationsCounter = 0;
+
         for (int i = 0; i < ITERATIONS; i++) {
             Colony colony = new Colony();
 
@@ -43,15 +45,15 @@ public class TSPSolver {
             world.evaporatePheromoneTrails(tauMIN, RHO);
             Ant colonyBestAnt = colony.getBestAnt();
 
-
             if (bestSoFarAnt == null || colonyBestAnt.getDistanceTravelled() < bestSoFarAnt.getDistanceTravelled()) {
                 bestSoFarAnt = colonyBestAnt;
+
                 tauMAX = 1.0 / (RHO * bestSoFarAnt.getDistanceTravelled());
                 tauMIN = tauMAX / a;
+
                 bestSoFarAnt.printRoute();
-            } else {
-                badIterationsCounter++;
-            }
+                System.out.println("Iteration: " + i);
+            } else badIterationsCounter++;
 
             bestSoFarAnt.updatePheromoneTrails(tauMAX);
 
@@ -59,7 +61,6 @@ public class TSPSolver {
                 badIterationsCounter = 0;
                 world.setPheromoneTrails(tauMAX);
             }
-
         }
     }
 }

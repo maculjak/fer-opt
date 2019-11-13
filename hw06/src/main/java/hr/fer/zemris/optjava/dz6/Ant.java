@@ -54,6 +54,7 @@ public class Ant implements Iterator<City> {
 
         for (City c : citiesToChooseFrom) {
             previousProbability += c.getTravelProbability();
+
             if (value < previousProbability) {
                 nextCity = c;
                 break;
@@ -82,7 +83,6 @@ public class Ant implements Iterator<City> {
     public void greedyTravel() {
         while (hasNext()) greedyNext();
         distanceTravelled += world.getDistance(currentCity, initialCity);
-        printRoute();
     }
 
     public void smartTravel() {

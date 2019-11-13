@@ -8,20 +8,17 @@ public class World {
 
     private ArrayList<City> cities;
     private HashMap<City, ArrayList<City>> closestFromCity;
-    private HashMap<City, ArrayList<City>> otherNeighbours;
 
     private double[][] distanceMatrix;
     private double[][] pheromoneTrails;
     private double[][] etaMatrix;
+
     private int size;
-
     private double ALPHA;
-
     private Random rand;
 
     public World() {
         cities = new ArrayList<>();
-        Random rand = new Random();
     }
 
     public boolean addCity(City c) {
@@ -31,6 +28,7 @@ public class World {
     public void updateStructures(int CANDIDATES, double BETA) {
         size = cities.size();
         closestFromCity = new HashMap<>();
+
         distanceMatrix = new double[size][size];
         pheromoneTrails = new double[size][size];
         etaMatrix = new double[size][size];
@@ -58,6 +56,7 @@ public class World {
                     int size = neighbours.size();
 
                     boolean added = false;
+
                     for (int i = 0; i < size && size < CANDIDATES; i++) {
                         City current = neighbours.get(i);
 
@@ -74,16 +73,6 @@ public class World {
             }
             rowIndex++;
         }
-
-        otherNeighbours = new HashMap<>();
-
-        for (City c : cities) {
-            ArrayList<City> othersList = new ArrayList<>();
-            otherNeighbours.put(c, othersList);
-            ArrayList<City> candidatesList = closestFromCity.get(c);
-            for (City other : cities) if (!candidatesList.contains(other)) othersList.add(other);
-        }
-
     }
 
     public void setPheromoneTrails(double tau) {
@@ -112,20 +101,12 @@ public class World {
         return cities.get(index);
     }
 
-    public City randomCity() {
-        return get(rand.nextInt(size));
-    }
-
     public ArrayList<City> getCities() {
         return cities;
     }
 
     public ArrayList<City> getClosest(City c) {
         return closestFromCity.get(c);
-    }
-
-    public ArrayList<City> getOtherNeighbours(City c) {
-        return otherNeighbours.get(c);
     }
 
     public double getDistance(City c1, City c2) {
@@ -144,16 +125,6 @@ public class World {
         return size;
     }
 
-    public double getDistancesSum() {
-        double sum = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                sum += distanceMatrix[i][j];
-            }
-        }
-        return sum;
-    }
-
     public double getRemainingCitiesTravelInfo(City city, ArrayList<City> remaining) {
         double sum = 0;
         for (City c : remaining) sum += eta(city, c) * Math.pow(tau(city, c), ALPHA);
@@ -162,8 +133,6 @@ public class World {
 
     public void setTravelProbabilities(City city, ArrayList<City> remaining) {
         double denominator = getRemainingCitiesTravelInfo(city, remaining);
-        HashMap<City, Double> probabilities = new HashMap<>();
-
         for (City c : remaining) c.setTravelProbability(Math.pow(tau(city, c), ALPHA) * eta(city, c) / denominator);
     }
 
