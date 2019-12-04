@@ -1,5 +1,6 @@
+package hr.fer.zemris.optjava.dz7;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FFANN {
