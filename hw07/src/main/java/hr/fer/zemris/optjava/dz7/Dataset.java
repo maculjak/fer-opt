@@ -1,26 +1,27 @@
 package hr.fer.zemris.optjava.dz7;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.xml.crypto.Data;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class Dataset implements IReadOnlyDataset{
+public class Dataset implements IReadOnlyDataset {
 
-    private Map<double[], int[]> inputOutputMap;
+    private Map<double[], double[]> inputOutputMap;
 
     public Dataset(String file) {
-        inputOutputMap = new HashMap<double[], int[]>();
+        inputOutputMap = new HashMap<double[], double[]>();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(file)));
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.replace(")", "").replace("(", "");
                 String[] inputOutput = line.split(":");
                 double[] input = Arrays.stream(inputOutput[0].split(",")).mapToDouble(Double::parseDouble).toArray();
-                int[] output = Arrays.stream(inputOutput[1].split(",")).mapToInt(Integer::parseInt).toArray();
+                double[] output = Arrays.stream(inputOutput[1].split(",")).mapToDouble(Double::parseDouble).toArray();
                 inputOutputMap.put(input,output);
             }
         } catch (IOException e) {
@@ -32,7 +33,11 @@ public class Dataset implements IReadOnlyDataset{
         return inputOutputMap.size();
     }
 
-    public int[] getOutputVector(double[] input) {
+    public double[] getOutputVector(double[] input) {
         return inputOutputMap.get(input);
+    }
+
+    public Set<double[]> getInputs() {
+        return inputOutputMap.keySet();
     }
 }
