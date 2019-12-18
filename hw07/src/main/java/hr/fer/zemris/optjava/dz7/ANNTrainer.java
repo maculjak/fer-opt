@@ -4,7 +4,6 @@ public class ANNTrainer {
 
     public static void main(String[] args) {
 
-        String FILE = args[0];
         String ALGORITHM = args[1];
         int POPULATION_SIZE = Integer.parseInt(args[2]);
         double MAXIMUM_ERROR = Double.parseDouble(args[3]);
