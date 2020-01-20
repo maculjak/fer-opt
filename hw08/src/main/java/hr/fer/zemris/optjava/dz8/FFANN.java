@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FFANN {
+public class FFANN implements INeuralNetwork{
 
-    private int[] layers;
-    private ITransferFunction[] transferFunctions;
-    private IReadOnlyDataset dataset;
-    private int weightsCount;
+    protected int[] layers;
+    protected ITransferFunction[] transferFunctions;
+    protected IReadOnlyDataset dataset;
+    protected int weightsCount;
     private double[] operativeWeights;
 
     public FFANN(int[] layers, ITransferFunction[] transferFunctions, IReadOnlyDataset dataset) {
@@ -46,7 +46,7 @@ public class FFANN {
             neuronOutputs.clear();
         }
 
-        for (int i = 0; i < outputs.length;i++) outputs[i] = neuronInputs.get(i);
+        for (int i = 0; i < outputs.length; i++) outputs[i] = neuronInputs.get(i);
     }
 
     public double getError(double[] weights) {
@@ -61,11 +61,12 @@ public class FFANN {
 
         for (int i = 0; i < size; i++) {
             double[] entry = dataset.getEntry(i);
-            double[] desiredOutput = Arrays.copyOfRange(entry, size, entry.length);
-            calculateOutputs(entry, weights, networkOutput);
+            double[] desiredOutput = Arrays.copyOfRange(entry, vectorSize, entry.length);
+            double[] input = Arrays.copyOfRange(entry, 0, vectorSize);
+            calculateOutputs(input, weights, networkOutput);
 
             for (int j = 0; j < networkOutput.length; j++) {
-                error += (desiredOutput[i] - networkOutput[i]);
+                error += (desiredOutput[j] - networkOutput[j]) * (desiredOutput[j] - networkOutput[j]);
             }
         }
 
@@ -82,17 +83,19 @@ public class FFANN {
 
         int numberOfSamples = dataset.getNumberOfSamples();
         int size = dataset.getInputVectorSize();
+        int vectorSize = dataset.getInputVectorSize();
 
         int index = 0;
         for (int i = 0; i < numberOfSamples; i++) {
             double[] entry = dataset.getEntry(i);
             double[] output = new double[layers[layers.length - 1]];
+            double[] input = Arrays.copyOfRange(entry, 0, vectorSize);
 
-            calculateOutputs(entry, operativeWeights, output);
+            calculateOutputs(input, operativeWeights, output);
             System.out.printf("%3d. Our result: ", ++index);
 
             for (int j = 0; j < output.length; j++) {
-                System.out.print(Math.round(output[j]) + " ");
+                System.out.print(output[j] + " ");
             }
 
             double[] correctOutput = Arrays.copyOfRange(entry, size, entry.length);
@@ -100,8 +103,8 @@ public class FFANN {
 
             boolean correct = true;
             for (int j = 0; j < correctOutput.length; j++) {
-                System.out.print(Math.round(correctOutput[i]) + " ");
-                if (Math.round(output[i]) != correctOutput[i]) correct = false;
+                System.out.format("%.3f ", correctOutput[j]);
+                if (Math.abs(1 - output[j] / correctOutput[j]) >= 0.05) correct = false;
             }
 
             if (correct) {
