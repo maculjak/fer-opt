@@ -15,6 +15,7 @@ public class GrayScaleImage {
         this.height = height;
         this.data = new byte[height*width];
     }
+
     public int getHeight() {
         return height;
     }

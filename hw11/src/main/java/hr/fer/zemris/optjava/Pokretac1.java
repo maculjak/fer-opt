@@ -1,10 +1,11 @@
 package hr.fer.zemris.optjava;
 
 import hr.fer.zemris.optjava.art.GrayScaleImage;
+import hr.fer.zemris.optjava.generic.ga.Evaluator;
+import hr.fer.zemris.optjava.generic.ga.Solution;
 import hr.fer.zemris.optjava.generic.ga.algorithms.PEGA;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Pokretac1 {
 
@@ -20,13 +21,18 @@ public class Pokretac1 {
 
         try {
             image = GrayScaleImage.load(new File(SRC_IMAGE_PATH));
-            PEGA.solve(POPULATION_MAXIMUM, GENERATIONS_MAXIMUM, FITNESS_MINIMUM, RECTANGLES, image);
-
+            Solution best = PEGA.solve(POPULATION_MAXIMUM, GENERATIONS_MAXIMUM, FITNESS_MINIMUM, RECTANGLES, image);
+            GrayScaleImage imageToDraw = new Evaluator(image).draw(best, new GrayScaleImage(image.getWidth(), image.getHeight()));
+            imageToDraw.save(new File(DEST_IMAGE_PATH));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(DEST_PARAMS_PATH)));
+            int[] data = best.getData();
+            for (int i = 0; i < data.length; i++) {
+                bw.write(data[i] + "\n");
+            }
+            bw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        PEGA.solve(POPULATION_MAXIMUM, GENERATIONS_MAXIMUM, FITNESS_MINIMUM, RECTANGLES, image);
 
     }
 }
