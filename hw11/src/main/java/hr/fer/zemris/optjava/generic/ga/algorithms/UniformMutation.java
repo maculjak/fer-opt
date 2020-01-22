@@ -4,13 +4,13 @@ import hr.fer.zemris.optjava.generic.ga.Solution;
 import hr.fer.zemris.optjava.rng.IRNG;
 import hr.fer.zemris.optjava.rng.RNG;
 
-public class SigmaMutation {
+public class UniformMutation {
 
     private IRNG rng;
     private int imageHeight;
     private int imageWidth;
 
-    public SigmaMutation(int imageHeight, int imageWidth) {
+    public UniformMutation(int imageHeight, int imageWidth) {
         rng = RNG.getRNG();
         this.imageHeight = imageHeight;
         this.imageWidth = imageWidth;
