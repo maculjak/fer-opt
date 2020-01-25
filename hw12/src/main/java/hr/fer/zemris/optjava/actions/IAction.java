@@ -1,4 +1,6 @@
 package hr.fer.zemris.optjava.actions;
 
-public interface Action {
+import hr.fer.zemris.optjava.INode;
+
+public interface IAction extends INode {
 }
