@@ -1,41 +1,42 @@
 package hr.fer.zemris.optjava.dz12;
 
 import hr.fer.zemris.optjava.INode;
-import hr.fer.zemris.optjava.Tree;
+import hr.fer.zemris.optjava.Solution;
 import hr.fer.zemris.optjava.actions.Move;
 import hr.fer.zemris.optjava.actions.Right;
+import hr.fer.zemris.optjava.functions.IfFoodAhead;
+import hr.fer.zemris.optjava.functions.Prog2;
+import hr.fer.zemris.optjava.functions.Prog3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Simulation extends Thread {
 
     private WorldFrame worldFrame;
+    private Solution solution;
 
-    public Simulation(WorldFrame worldFrame) {
+    public Simulation(WorldFrame worldFrame, Solution solution) {
         this.worldFrame = worldFrame;
+        this.solution = solution;
     }
 
     public void run() {
 
+        INode node = solution.getRoot();
+
+
         Random rand = new Random();
-        Right right = new Right(worldFrame);
-        Move move = new Move(worldFrame);
         int index = 0;
         List<INode> list = new ArrayList<>();
-        list.add(move);
-        list.add(move);
-        list.add(move);
-        list.add(move);
-        list.add(right);
+        Solution solution = new Solution(node);
+        solution.evaluate(worldFrame.getMap());
+
         while(true) {
-            list.get(index).execute();
-            index = (index + 1) % 5;
-
-
             try {
-                Thread.sleep(100);
+                node.execute(worldFrame);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

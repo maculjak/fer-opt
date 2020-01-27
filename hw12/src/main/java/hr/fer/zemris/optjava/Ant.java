@@ -6,13 +6,18 @@ public class Ant {
     private int facingDirection;
     private final int rowBound;
     private final int colBound;
+    private int score;
+    private boolean[][] map;
+    private int movesLeft;
 
-    public Ant(int row, int col, int facingDirection, int rowBound, int colBound) {
+    public Ant(int row, int col, int facingDirection, int rowBound, int colBound, boolean[][] map) {
         this.row = row;
         this.col = col;
         this.facingDirection = facingDirection;
         this.rowBound = rowBound;
         this.colBound = colBound;
+        this.movesLeft = 600;
+        this.map = map;
     }
 
     public int getRow() {
@@ -40,18 +45,30 @@ public class Ant {
     }
 
     public void rotateLeft() {
-        facingDirection = facingDirection == 0 ? 3 : (facingDirection - 1) % 4;
+        if (movesLeft > 0) {
+            facingDirection = facingDirection == 0 ? 3 : (facingDirection - 1) % 4;
+            movesLeft--;
+        }
     }
 
     public void rotateRight() {
-        facingDirection = (facingDirection + 1) % 4;
+        if (movesLeft > 0) {
+            facingDirection = (facingDirection + 1) % 4;
+            movesLeft--;
+        }
+
     }
 
     public void move() {
-        if (facingDirection == 0) incCol();
-        else if (facingDirection == 1) incRow();
-        else if (facingDirection == 2) decCol();
-        else if (facingDirection == 3) decRow();
+        if (movesLeft > 0) {
+            if (isFoodInFront()) score++;
+            if (facingDirection == 0) incCol();
+            else if (facingDirection == 1) incRow();
+            else if (facingDirection == 2) decCol();
+            else if (facingDirection == 3) decRow();
+            movesLeft--;
+            if (map[row][col]) map[row][col] = false;
+        }
     }
 
     public void incRow() {
@@ -76,5 +93,30 @@ public class Ant {
         else if (facingDirection == 2) return "C" + (col == 0 ? 31 : (col - 1) % 32);
         else if (facingDirection == 3) return "R" + (row == 0 ? 31 : (row - 1) % 32);
         else return "";
+    }
+
+    public boolean isFoodInFront() {
+        String indexInFront = getIndexInFront();
+        char rowOrCol = indexInFront.charAt(0);
+        int index = Integer.parseInt(indexInFront.substring(1));
+
+        if (rowOrCol == 'R') return map[index][col];
+        else return map[row][index];
+    }
+
+    public int getMovesLeft() {
+        return movesLeft;
+    }
+
+    public void setMovesLeft(int movesLeft) {
+        this.movesLeft = movesLeft;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
