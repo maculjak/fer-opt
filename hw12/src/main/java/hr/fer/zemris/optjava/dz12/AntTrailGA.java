@@ -1,18 +1,12 @@
 package hr.fer.zemris.optjava.dz12;
 
-import hr.fer.zemris.optjava.INode;
-import hr.fer.zemris.optjava.NodeType;
-import hr.fer.zemris.optjava.Solution;
-import hr.fer.zemris.optjava.Util;
+import hr.fer.zemris.optjava.GUI.WorldFrame;
 import hr.fer.zemris.optjava.functions.IfFoodAhead;
 import hr.fer.zemris.optjava.functions.Prog2;
 import hr.fer.zemris.optjava.functions.Prog3;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,7 +58,7 @@ public class AntTrailGA {
         Solution best = population.stream().max(Solution::compareTo).get();
 
 
-        for (int generation = 0; generation < GENERATIONS_MAXIMUM; generation++) {
+        for (int generation = 0; generation < GENERATIONS_MAXIMUM && best.getScore() < FITNESS_MINIMUM; generation++) {
             List<Solution> newPopulation = new ArrayList<>();
             for (int i = 0; i < POPULATION_MAXIMUM; i++) {
                 double value = rand.nextDouble();
@@ -96,10 +90,18 @@ public class AntTrailGA {
 
         best.evaluate(map);
         Solution finalBest1 = best;
+
         SwingUtilities.invokeLater(() -> {
             WorldFrame worldFrame = new WorldFrame(map, finalBest1);
         });
 
+        try {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputPath)));
+            bw.write(best.toString());
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void genUnitsAtDepth(int depth, List<Solution> population, int POPULATION_MAXIMUM, boolean[][] map) {
@@ -122,9 +124,8 @@ public class AntTrailGA {
 
         for (int i = 1; i < numberOfParticipants; i++) {
             Solution currentSolution = population.get(indicesList.get(i));
-            if (value < 0.95) if (currentSolution.getScore() > best.getScore()) best = currentSolution;
+            if (value < 0.8) if (currentSolution.getScore() > best.getScore()) best = currentSolution;
             else if (currentSolution.getNumberOfNodes() < best.getNumberOfNodes()) best = currentSolution;
-
         }
 
         return best;
@@ -137,8 +138,8 @@ public class AntTrailGA {
         INode root2 = parent2.getRoot().clone();
 
 
-        List<INode> nodeList1 = root1.getSubTreeNodes();
-        List<INode> nodeList2 = root2.getSubTreeNodes();
+        List<INode> nodeList1 = root1.getFunctionNodes();
+        List<INode> nodeList2 = root2.getFunctionNodes();
 
         int size1 = nodeList1.size();
         int size2 = nodeList2.size();
@@ -159,8 +160,6 @@ public class AntTrailGA {
             type = node.getType();
         }
 
-        int depth = node.getDepth();
-
         if (type == NodeType.IfFoodAhead) {
             if (rand.nextDouble() < 0.5) ((IfFoodAhead) node).setFalse(nodeList2.get(i2));
             else ((IfFoodAhead) node).setTrue(nodeList2.get(i2));
@@ -173,7 +172,7 @@ public class AntTrailGA {
             else ((Prog3) node).setA(nodeList2.get(i2));
         }
 
-        if (root1.countNodesInSubtree() > 199) return rand.nextDouble() < 0.5
+        if (root1.countNodesInSubtree() > 200) return rand.nextDouble() < 0.5
                 ? new Solution(parent1.getRoot().clone())
                 : new Solution(parent2.getRoot().clone());
         root1.updateDepths(0);
@@ -185,7 +184,7 @@ public class AntTrailGA {
         INode root = solution.getRoot().clone();
         root.updateDepths(0);
 
-        List<INode> nodeList = root.getSubTreeNodes();
+        List<INode> nodeList = root.getFunctionNodes();
         int size = nodeList.size();
 
         if (size < 1) return new Solution(rand.nextDouble() < 0.5 ? Util.genGrowNode(0, rand.nextInt(7))
@@ -197,10 +196,8 @@ public class AntTrailGA {
         INode node = nodeList.get(index);
         NodeType type = node.getType();
 
-        int depth = node.getDepth();
-
-        INode newNode = rand.nextDouble() < 0.5 ? Util.genFullNode(0, rand.nextInt(7))
-                : Util.genFullNode(0, rand.nextInt(7));
+        INode newNode = rand.nextDouble() < 0.5 ? Util.genFullNode(0, rand.nextInt(4))
+                : Util.genFullNode(0, rand.nextInt(4));
 
         if (type == NodeType.IfFoodAhead) {
             if (rand.nextDouble() < 0.5) ((IfFoodAhead) node).setFalse(newNode);
@@ -215,7 +212,7 @@ public class AntTrailGA {
         }
 
 
-        if (root.countNodesInSubtree() > 199) return new Solution(newNode);
+        if (root.countNodesInSubtree() > 200) return new Solution(newNode);
         root.updateDepths(0);
 
         return new Solution(root);

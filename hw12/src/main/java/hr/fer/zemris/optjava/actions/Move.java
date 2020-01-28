@@ -1,9 +1,9 @@
 package hr.fer.zemris.optjava.actions;
 
-import hr.fer.zemris.optjava.Ant;
-import hr.fer.zemris.optjava.INode;
-import hr.fer.zemris.optjava.NodeType;
-import hr.fer.zemris.optjava.dz12.WorldFrame;
+import hr.fer.zemris.optjava.dz12.Ant;
+import hr.fer.zemris.optjava.dz12.INode;
+import hr.fer.zemris.optjava.dz12.NodeType;
+import hr.fer.zemris.optjava.GUI.WorldFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ public class Move implements INode {
 
     private int depth;
     private NodeType type = NodeType.Move;
+    private boolean run;
 
     public Move(int depth) {
         this.depth = depth;
@@ -22,8 +23,10 @@ public class Move implements INode {
     }
 
     public void execute(WorldFrame worldFrame) throws InterruptedException {
-        worldFrame.moveAnt();
-        Thread.sleep(100);
+        if (run) {
+            worldFrame.moveAnt();
+            Thread.sleep(100);
+        }
     }
 
 
@@ -33,7 +36,7 @@ public class Move implements INode {
 
     @Override
     public int countNodesInSubtree() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class Move implements INode {
     }
 
     @Override
-    public List<INode> getSubTreeNodes() {
+    public List<INode> getFunctionNodes() {
         return new ArrayList<>();
     }
 
@@ -55,4 +58,15 @@ public class Move implements INode {
     public void updateDepths(int depth) {
         this.depth = depth;
     }
+
+    @Override
+    public void setRun(boolean run) {
+        this.run = run;
+    }
+
+    @Override
+    public String toString() {
+        return "Move";
+    }
 }
+

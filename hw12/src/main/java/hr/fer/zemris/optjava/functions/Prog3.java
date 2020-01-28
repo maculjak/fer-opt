@@ -1,10 +1,10 @@
 package hr.fer.zemris.optjava.functions;
 
-import hr.fer.zemris.optjava.Ant;
-import hr.fer.zemris.optjava.INode;
-import hr.fer.zemris.optjava.NodeType;
-import hr.fer.zemris.optjava.Util;
-import hr.fer.zemris.optjava.dz12.WorldFrame;
+import hr.fer.zemris.optjava.dz12.Ant;
+import hr.fer.zemris.optjava.dz12.INode;
+import hr.fer.zemris.optjava.dz12.NodeType;
+import hr.fer.zemris.optjava.dz12.Util;
+import hr.fer.zemris.optjava.GUI.WorldFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,18 +16,22 @@ public class Prog3 implements INode{
     private INode c;
     private int depth;
     private NodeType type = NodeType.Prog3;
+    private boolean run;
 
     public Prog3(INode a, INode b, INode c, int depth) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.depth = depth;
+        this.run = true;
     }
 
-    public void execute(WorldFrame worldFrame) throws InterruptedException{
-        a.execute(worldFrame);
-        b.execute(worldFrame);
-        c.execute(worldFrame);
+    public void execute(WorldFrame worldFrame) throws InterruptedException {
+        if (run) {
+            a.execute(worldFrame);
+            b.execute(worldFrame);
+            c.execute(worldFrame);
+        }
     }
 
     public void execute(Ant ant) throws InterruptedException{
@@ -56,18 +60,18 @@ public class Prog3 implements INode{
     }
 
     @Override
-    public List<INode> getSubTreeNodes() {
+    public List<INode> getFunctionNodes() {
         List<INode> nodeList = new ArrayList<>();
         if (Util.isFunction(a)){
-            nodeList.addAll(a.getSubTreeNodes());
+            nodeList.addAll(a.getFunctionNodes());
             nodeList.add(a);
         }
         if (Util.isFunction(b)) {
-            nodeList.addAll(b.getSubTreeNodes());
+            nodeList.addAll(b.getFunctionNodes());
             nodeList.add(b);
         }
         if (Util.isFunction(c)) {
-            nodeList.addAll(c.getSubTreeNodes());
+            nodeList.addAll(c.getFunctionNodes());
             nodeList.add(c);
         }
 
@@ -93,4 +97,17 @@ public class Prog3 implements INode{
         c.updateDepths(depth + 1);
     }
 
+    @Override
+    public void setRun(boolean run) {
+        this.run = run;
+        this.a.setRun(run);
+        this.b.setRun(run);
+        this.c.setRun(run);
+    }
+
+    @Override
+    public String toString() {
+        return "Prog3(" + a.toString() + ", " + b.toString() + ", " + c.toString() + ")";
+
+    }
 }

@@ -1,9 +1,9 @@
 package hr.fer.zemris.optjava.actions;
 
-import hr.fer.zemris.optjava.Ant;
-import hr.fer.zemris.optjava.INode;
-import hr.fer.zemris.optjava.NodeType;
-import hr.fer.zemris.optjava.dz12.WorldFrame;
+import hr.fer.zemris.optjava.dz12.Ant;
+import hr.fer.zemris.optjava.dz12.INode;
+import hr.fer.zemris.optjava.dz12.NodeType;
+import hr.fer.zemris.optjava.GUI.WorldFrame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,15 @@ public class Right implements INode {
 
     private int depth;
     private NodeType type = NodeType.Right;
+    private boolean run;
 
     public Right(int depth) {
         this.depth = depth;
+        this.run = true;
     }
 
     public void execute(WorldFrame worldFrame) {
-        worldFrame.rotateAnt("R");
+        if (run) worldFrame.rotateAnt("R");
     }
 
     public void execute(Ant ant) {
@@ -32,7 +34,7 @@ public class Right implements INode {
 
     @Override
     public int countNodesInSubtree() {
-        return 1;
+        return 0;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class Right implements INode {
 
 
     @Override
-    public List<INode> getSubTreeNodes() {
+    public List<INode> getFunctionNodes() {
         return new ArrayList<>();
     }
 
@@ -54,5 +56,15 @@ public class Right implements INode {
     @Override
     public void updateDepths(int depth) {
         this.depth = depth;
+    }
+
+    @Override
+    public void setRun(boolean run) {
+        this.run = run;
+    }
+
+    @Override
+    public String toString() {
+        return "Right";
     }
 }
