@@ -7,7 +7,7 @@ This repository contains solutions of homework exercises as a part of *Solving O
  - hw04 - Genetic algorithm
  - hw05 - RAPGA and SASEGASA
  - hw06 - Ant colony algorithm
- - hw07 - Training a feed-forward aritficial neural network using PSO and CLONALG
+ - hw07 - Training a feedforward aritficial neural network using PSO and CLONALG
  - hw08 - Training time delay and Elman artificial neural networks for time series prediction using differential evolution
  - hw09 - NSGA
  - hw10 - NSGA II
